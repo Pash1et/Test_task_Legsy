@@ -11,6 +11,8 @@ services:
     build: 
       context: ../
     container_name: fastapi_app
+    volumes:
+      - ../:/fastapi_app/
     command: ["/fastapi_app/infra/script.sh"]
     env_file:
       - ../.env
