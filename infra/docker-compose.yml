@@ -6,8 +6,19 @@ services:
     container_name: database
     volumes:
       - dbdata:/var/lib/postgresql/data/
+    expose:
+      - 5432
     env_file:
       - ../.env
+
+  redis:
+    image: redis:7
+    container_name: redis
+    command: --port 5370
+    expose:
+      - 5370
+    depends_on:
+      - db
 
   fastapi_app:
     build: 
@@ -19,7 +30,39 @@ services:
     ports:
       - 8080:8000
     depends_on:
-      - db
+      - celery-beat
+  
+  celery:
+    build: 
+      context: ../
+    container_name: celery
+    command: ["/fastapi_app/infra/celery.sh", "celery"]
+    depends_on:
+      - redis
+    env_file:
+      - ../.env
+
+  celery-beat:
+    build: 
+      context: ../
+    container_name: celery-beat
+    command: ["/fastapi_app/infra/celery.sh", "celery-beat"]
+    depends_on:
+      - celery
+    env_file:
+      - ../.env
+
+  flower:
+    build: 
+      context: ../
+    container_name: flower
+    command: ["/fastapi_app/infra/celery.sh", "flower"]
+    ports:
+      - 5555:5555
+    depends_on:
+      - celery-beat
+    env_file:
+      - ../.env
 
 volumes:
   dbdata:

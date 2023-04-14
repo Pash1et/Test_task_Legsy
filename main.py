@@ -2,7 +2,6 @@ from fastapi import FastAPI
 
 from routers import products
 
-
 app = FastAPI(title='Parse WB')
 
 app.include_router(products.router)

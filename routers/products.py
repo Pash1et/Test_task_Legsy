@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from core.models.database import SessionLocal
 from core.crud import crud
-
+from core.models.database import SessionLocal
 
 router = APIRouter(prefix='/items')
 
