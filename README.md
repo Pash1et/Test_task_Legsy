@@ -12,6 +12,6 @@
  - Скачать и установить [Docker](https://docs.docker.com/get-docker/)  
   - Клонировать репозиторий ```git clone https://github.com/Pash1et/Test_task_Legsy.git``` 
   - В корне директории test_task_legsy создать файл .env и заполнить его по примеру .env.sample
-  - В папке infra выполнить команду ```docker compose up -d```
-  - Перейти в контейнер fastapi_app ```docker exec -it fastapi_app bash``` и выполнить миграции ```alembic upgrade head```
+  - В папке infra выполнить команду ```docker compose up -d```  
+  - ~~ Перейти в контейнер fastapi_app ```docker exec -it fastapi_app bash``` и выполнить миграции ```alembic upgrade head```~~
   - Перейти по адресу ```http://127.0.0.0:8080/docs```
