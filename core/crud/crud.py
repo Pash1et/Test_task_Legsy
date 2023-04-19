@@ -10,21 +10,21 @@ def add_product(db: Session, id: int):
         'https://card.wb.ru/cards/detail'
         f'?curr=rub&dest=123586087&spp=19&nm={id}').json()
 
+    data_products = response.get('data').get('products')[0]
+
     product = models.Product(
-        nm_id=response.get('data').get('products')[0].get('id'),
-        name=response.get('data').get('products')[0].get('name'),
-        brand=response.get('data').get('products')[0].get('brand'),
-        brand_id=response.get('data').get('products')[0].get('brandId'),
-        site_brand_id=response.get('data').get(
-            'products')[0].get('siteBrandId'),
-        supplier_id=response.get('data').get('products')[0].get('supplierId'),
-        sale=response.get('data').get('products')[0].get('sale'),
-        price=str(response.get('data').get('products')[0].get('priceU'))[:-2],
-        sale_price=str(response.get('data').get(
-            'products')[0].get('salePriceU'))[:-2],
-        rating=response.get('data').get('products')[0].get('rating'),
-        feedbacks=response.get('data').get('products')[0].get('feedbacks'),
-        colors=response.get('data').get('products')[0].get('colors'),
+        nm_id=data_products.get('id'),
+        name=data_products.get('name'),
+        brand=data_products.get('brand'),
+        brand_id=data_products.get('brandId'),
+        site_brand_id=data_products.get('siteBrandId'),
+        supplier_id=data_products.get('supplierId'),
+        sale=data_products.get('sale'),
+        price=str(data_products.get('priceU'))[:-2],
+        sale_price=str(data_products.get('salePriceU'))[:-2],
+        rating=data_products.get('rating'),
+        feedbacks=data_products.get('feedbacks'),
+        colors=data_products.get('colors'),
     )
 
     db.add(product)
@@ -57,26 +57,20 @@ def update_product():
             'https://card.wb.ru/cards/detail?curr=rub&'
             f'dest=123586087&spp=19&nm={product.nm_id}'
         ).json()
+        data_products = response.get('data').get('products')[0]
 
-        product.nm_id = response.get('data').get('products')[0].get('id')
-        product.name = response.get('data').get('products')[0].get('name'),
-        product.brand = response.get('data').get('products')[0].get('brand'),
-        product.brand_id = response.get('data').get(
-            'products')[0].get('brandId'),
-        product.site_brand_id = response.get('data').get(
-            'products')[0].get('siteBrandId'),
-        product.supplier_id = response.get('data').get(
-            'products')[0].get('supplierId'),
-        product.sale = response.get('data').get('products')[0].get('sale'),
-        product.price = str(response.get('data').get(
-            'products')[0].get('priceU'))[:-2],
-        product.sale_price = str(response.get('data').get(
-            'products')[0].get('salePriceU'))[:-2],
-        product.rating = response.get('data').get(
-            'products')[0].get('rating'),
-        product.feedbacks = response.get('data').get(
-            'products')[0].get('feedbacks'),
-        product.colors = response.get('data').get('products')[0].get('colors'),
+        product.nm_id = data_products.get('id')
+        product.name = data_products.get('name'),
+        product.brand = data_products.get('brand'),
+        product.brand_id = data_products.get('brandId'),
+        product.site_brand_id = data_products.get('siteBrandId'),
+        product.supplier_id = data_products.get('supplierId'),
+        product.sale = data_products.get('sale'),
+        product.price = str(data_products.get('priceU'))[:-2],
+        product.sale_price = str(data_products.get('salePriceU'))[:-2],
+        product.rating = data_products.get('rating'),
+        product.feedbacks = data_products.get('feedbacks'),
+        product.colors = data_products.get('colors'),
 
         db.add(product)
         db.commit()
